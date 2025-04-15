@@ -48,6 +48,12 @@ export default function HoldableOiiaCat() {
       onMouseDown={startPress}
       onTouchStart={startPress}
     >
+      {/* 타이머 */}
+      {pressTime > 0 && (
+        <div className="absolute bottom-4 text-xl font-bold text-black bg-white/70 px-3 py-1 rounded-xl z-20">
+          {pressTime.toFixed(1)}
+        </div>
+      )}
       {/* 기본 고양이 이미지 */}
       {!showMeme && (
         <Image
@@ -61,20 +67,13 @@ export default function HoldableOiiaCat() {
 
       {/* 밈 이미지 (누르는 동안만 보여짐) */}
       {showMeme && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10 pointer-events-none">
+        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
           <Image
             src="/meme/oiia-cat-meme.gif"
             alt="Oiia Cat Meme"
             width={200}
             height={200}
           />
-        </div>
-      )}
-
-      {/* 타이머 */}
-      {pressTime > 0 && (
-        <div className="absolute bottom-4 text-xl font-bold text-black bg-white/70 px-3 py-1 rounded-xl z-20">
-          ⏱️ {pressTime.toFixed(1)}초 누르는 중...
         </div>
       )}
     </div>
