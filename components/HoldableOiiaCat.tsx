@@ -10,7 +10,6 @@ export default function HoldableOiiaCat() {
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  //const soundRef = useRef<HTMLAudioElement | null>(null);
 
   const startPress = () => {
     if (isPressing) return;
@@ -24,8 +23,7 @@ export default function HoldableOiiaCat() {
 
     timerRef.current = setTimeout(() => {
       setShowMeme(true);
-      //soundRef.current?.play();
-    }, 100);
+    }, 1000);
   };
 
   const endPress = () => {
@@ -36,16 +34,24 @@ export default function HoldableOiiaCat() {
     clearInterval(intervalRef.current!);
     setShowMeme(false);
     setPressTime(0);
-
-    // if (soundRef.current) {
-    //   soundRef.current.pause();
-    //   soundRef.current.currentTime = 0;
-    // }
   };
 
+  // ✅ 전역 이벤트로 마우스/터치 해제 감지
   useEffect(() => {
-    // soundRef.current = new Audio("/sounds/oiia-meme.mp3");
-    // soundRef.current.volume = 0.6;
+    const handleGlobalEnd = () => {
+      endPress();
+    };
+
+    window.addEventListener("mouseup", handleGlobalEnd);
+    window.addEventListener("touchend", handleGlobalEnd);
+
+    return () => {
+      window.removeEventListener("mouseup", handleGlobalEnd);
+      window.removeEventListener("touchend", handleGlobalEnd);
+    };
+  }, []);
+
+  useEffect(() => {
     return () => {
       clearTimeout(timerRef.current!);
       clearInterval(intervalRef.current!);
@@ -56,18 +62,9 @@ export default function HoldableOiiaCat() {
     <div
       className="relative w-full h-96 flex items-center justify-center select-none"
       onMouseDown={startPress}
-      onMouseUp={endPress}
-      onMouseLeave={endPress}
       onTouchStart={startPress}
-      onTouchEnd={endPress}
     >
-      {/* ⏱️ 타이머 */}
-      {pressTime > 0 && (
-        <div className="absolute bottom-4 text-xl font-bold text-black bg-white/70 px-3 py-1 rounded-xl z-20">
-          {pressTime.toFixed(1)}
-        </div>
-      )}
-      {/* ✅ 고양이 이미지: 밈이 아닐 때만 표시 */}
+      {/* 🐱 고양이 이미지: 밈이 아닐 때만 */}
       {!showMeme && (
         <Image
           src="/oiia-cat.png"
@@ -78,15 +75,22 @@ export default function HoldableOiiaCat() {
         />
       )}
 
-      {/* ✅ 밈 이미지: 누르고 1초 지나면 표시 */}
+      {/* 😂 밈 이미지 */}
       {showMeme && (
-        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+        <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-10 pointer-events-none">
           <Image
             src="/meme/oiia-cat-meme.gif"
             alt="Oiia Cat Meme"
             width={300}
             height={300}
           />
+        </div>
+      )}
+
+      {/* ⏱️ 타이머 */}
+      {pressTime > 0 && (
+        <div className="absolute bottom-4 text-xl font-bold text-black bg-white/70 px-3 py-1 rounded-xl z-20">
+          ⏱️ {pressTime.toFixed(1)}초 누르는 중...
         </div>
       )}
     </div>
