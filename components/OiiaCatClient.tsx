@@ -10,6 +10,18 @@ export default function OiiaCatClient() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const soundRef = useRef<HTMLAudioElement | null>(null);
 
+  const sendPressTime = async (ms: number) => {
+    try {
+      await fetch("/api/press", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ time: ms }),
+      });
+    } catch (err) {
+      console.error("시간 전송 실패: ", err);
+    }
+  };
+
   const startPress = () => {
     if (isTouching) return;
     setIsTouching(true);
@@ -26,14 +38,17 @@ export default function OiiaCatClient() {
   };
 
   const endPress = () => {
+    if (!isTouching) return;
     setIsTouching(false);
-    setPressTime(0);
-
     if (intervalRef.current) clearInterval(intervalRef.current);
     if (soundRef.current) {
       soundRef.current.pause();
       soundRef.current.currentTime = 0;
     }
+
+    const totalTime = pressTime * 100;
+    if (totalTime > 0) sendPressTime(totalTime);
+    setPressTime(0);
   };
 
   return (
