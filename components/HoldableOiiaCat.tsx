@@ -82,14 +82,14 @@ export default function HoldableOiiaCat() {
 
     window.addEventListener("mouseup", handleGlobalEnd);
     window.addEventListener("touchend", handleGlobalEnd);
-    window.addEventListener("touchmove", handleTouchMove);
+    //window.addEventListener("touchmove", handleTouchMove);
     window.addEventListener("contextmenu", handleContextMenu);
     window.addEventListener("touchcancel", handleGlobalEnd);
 
     return () => {
       window.removeEventListener("mouseup", handleGlobalEnd);
       window.removeEventListener("touchend", handleGlobalEnd);
-      window.removeEventListener("touchmove", handleTouchMove);
+      //window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("contextmenu", handleContextMenu);
       window.removeEventListener("touchcancel", handleGlobalEnd);
     };
