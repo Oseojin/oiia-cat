@@ -36,8 +36,8 @@ export default function PressRanking({ refreshSignal }: Props) {
   };
 
   return (
-    <div className="absolute bottom-4 text-sm w-full text-center">
-      <h2 className="font-bold">TOP 30</h2>
+    <div className="absolute bottom-0 text-sm w-full text-center">
+      <h2 className="font-bold">TOP 10</h2>
       <ul className="text-xs mt-1">
         {records.map((r, i) => {
           const isMe = r.ip === myIp;
