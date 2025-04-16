@@ -12,8 +12,8 @@ export default function HoldableOiiaCat() {
   const soundRef = useRef<HTMLAudioElement | null>(null);
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.button === 2) {
-      // 우클릭일 경우 바로 종료
+    if (e.button !== 0) {
+      // 왼쪽 클릭이 아닌 경우 무시
       endPress();
       return;
     }
