@@ -22,11 +22,23 @@ export default function PressRanking({ refreshSignal }: Props) {
       .catch(() => setMyIp(null));
   }, []);
 
-  useEffect(() => {
+  // ✅ fetch 랭킹
+  const fetchRanking = () => {
     fetch("/api/press")
       .then((res) => res.json())
       .then(setRecords);
+  };
+
+  // ✅ 최초 + refreshSignal이 바뀔 때
+  useEffect(() => {
+    fetchRanking();
   }, [refreshSignal]);
+
+  // ✅ 주기적 리프레시 (5초마다)
+  useEffect(() => {
+    const interval = setInterval(fetchRanking, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const maskIp = (ip: string, isMe: boolean) => {
     if (isMe) return ip;
