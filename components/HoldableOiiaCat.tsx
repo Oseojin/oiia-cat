@@ -22,7 +22,7 @@ export default function HoldableOiiaCat() {
   };
 
   const startPress = () => {
-    setIsTouching(true);
+    //setIsTouching(true);
 
     if (soundRef.current) {
       soundRef.current.currentTime = 0;
@@ -41,7 +41,7 @@ export default function HoldableOiiaCat() {
   };
 
   const endPress = () => {
-    setIsTouching(false);
+    //setIsTouching(false);
 
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
