@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   const top = await prisma.pressRecord.findMany({
     orderBy: { longestPress: "desc" },
-    take: 30,
+    take: 10,
   });
 
   return NextResponse.json(top);
