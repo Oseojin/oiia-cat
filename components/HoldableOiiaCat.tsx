@@ -69,11 +69,11 @@ export default function HoldableOiiaCat() {
       endPress();
     };
 
-    const handleTouchMove = () => {
-      if (isTouching) {
-        endPress(); // 손가락이 움직이면 바로 종료
-      }
-    };
+    // const handleTouchMove = () => {
+    //   if (isTouching) {
+    //     endPress(); // 손가락이 움직이면 바로 종료
+    //   }
+    // };
 
     const handleContextMenu = (e: MouseEvent) => {
       e.preventDefault(); // (선택사항) 우클릭 메뉴 방지
