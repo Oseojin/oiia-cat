@@ -7,14 +7,18 @@ type PressRecord = {
   total: number;
 };
 
-export default function PressRanking() {
+type Props = {
+  refreshSignal: number;
+};
+
+export default function PressRanking({ refreshSignal }: Props) {
   const [records, setRecords] = useState<PressRecord[]>([]);
 
   useEffect(() => {
     fetch("/api/press")
       .then((res) => res.json())
       .then(setRecords);
-  }, []);
+  }, [refreshSignal]);
 
   return (
     <div className="absolute bottom-4 text-sm w-full text-center">

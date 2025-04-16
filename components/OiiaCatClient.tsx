@@ -2,11 +2,13 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
+import PressRanking from "./PressRanking";
 
 export default function OiiaCatClient() {
   const [isTouching, setIsTouching] = useState(false);
   const [pressTime, setPressTime] = useState(0);
   const [gifKey, setGifKey] = useState(Date.now());
+  const [refreshSignal, setRefreshSignal] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const soundRef = useRef<HTMLAudioElement | null>(null);
 
@@ -47,7 +49,11 @@ export default function OiiaCatClient() {
     }
 
     const totalTime = pressTime * 100;
-    if (totalTime > 0) sendPressTime(totalTime);
+    if (totalTime > 0) {
+      sendPressTime(totalTime).then(() => {
+        setRefreshSignal(Date.now());
+      });
+    }
     setPressTime(0);
   };
 
@@ -91,6 +97,8 @@ export default function OiiaCatClient() {
           />
         )}
       </div>
+
+      <PressRanking refreshSignal={refreshSignal} />
 
       {/* 반복 재생되는 사운드 */}
       <audio ref={soundRef} src="/sound/oiia-meme.mp3" preload="auto" loop />
