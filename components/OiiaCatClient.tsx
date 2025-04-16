@@ -73,7 +73,7 @@ export default function OiiaCatClient() {
       )}
 
       {/* 고양이 이미지 or gif */}
-      <div className="relative">
+      <div className="relative bottom-10">
         {isTouching ? (
           <Image
             key={gifKey}
