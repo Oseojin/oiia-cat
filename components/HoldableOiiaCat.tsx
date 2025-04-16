@@ -7,6 +7,7 @@ export default function HoldableOiiaCat() {
   const [showMeme, setShowMeme] = useState(false);
   const [gifKey, setGifKey] = useState(Date.now()); // ✅ gif 강제 초기화를 위한 key
   const [pressTime, setPressTime] = useState(0);
+  const [isTouching, setIsTouching] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const soundRef = useRef<HTMLAudioElement | null>(null);
 
@@ -21,6 +22,8 @@ export default function HoldableOiiaCat() {
   };
 
   const startPress = () => {
+    setIsTouching(true);
+
     if (soundRef.current) {
       soundRef.current.currentTime = 0;
       soundRef.current
@@ -38,6 +41,8 @@ export default function HoldableOiiaCat() {
   };
 
   const endPress = () => {
+    setIsTouching(false);
+
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
@@ -64,6 +69,12 @@ export default function HoldableOiiaCat() {
       endPress();
     };
 
+    const handleTouchMove = () => {
+      if (isTouching) {
+        endPress(); // 손가락이 움직이면 바로 종료
+      }
+    };
+
     const handleContextMenu = (e: MouseEvent) => {
       e.preventDefault(); // (선택사항) 우클릭 메뉴 방지
       endPress(); // 우클릭 시에도 강제로 종료
@@ -71,11 +82,13 @@ export default function HoldableOiiaCat() {
 
     window.addEventListener("mouseup", handleGlobalEnd);
     window.addEventListener("touchend", handleGlobalEnd);
+    window.addEventListener("touchmove", handleTouchMove);
     window.addEventListener("contextmenu", handleContextMenu);
 
     return () => {
       window.removeEventListener("mouseup", handleGlobalEnd);
       window.removeEventListener("touchend", handleGlobalEnd);
+      window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("contextmenu", handleContextMenu);
     };
   }, []);
