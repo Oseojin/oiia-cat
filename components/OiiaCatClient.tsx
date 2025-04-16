@@ -11,6 +11,7 @@ export default function OiiaCatClient() {
   const soundRef = useRef<HTMLAudioElement | null>(null);
 
   const startPress = () => {
+    if (isTouching) return;
     setIsTouching(true);
     setGifKey(Date.now());
 
