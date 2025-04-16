@@ -1,10 +1,5 @@
-// 📁 app/page.tsx (또는 메인 화면 파일)
-import HoldableOiiaCat from "@/components/HoldableOiiaCat";
+import OiiaCatClient from "@/components/OiiaCatClient";
 
-export default function HomePage() {
-  return (
-    <main className="min-h-screen flex items-center justify-center bg-white">
-      <HoldableOiiaCat />
-    </main>
-  );
+export default function Home() {
+  return <OiiaCatClient />;
 }
