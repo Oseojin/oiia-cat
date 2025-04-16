@@ -7,7 +7,7 @@ export default function HoldableOiiaCat() {
   const [showMeme, setShowMeme] = useState(false);
   const [gifKey, setGifKey] = useState(Date.now()); // ✅ gif 강제 초기화를 위한 key
   const [pressTime, setPressTime] = useState(0);
-  const [isTouching, setIsTouching] = useState(false);
+  //const [isTouching, setIsTouching] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const soundRef = useRef<HTMLAudioElement | null>(null);
 
