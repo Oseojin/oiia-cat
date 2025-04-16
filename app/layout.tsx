@@ -1,4 +1,5 @@
 import ClientIP from "@/components/ClientIP";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -13,6 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Analytics />
       <body className="bg-black text-white w-screen h-screen overflow-hidden">
         {/* 최상단 타이틀 */}
         <div className="absolute top-4 w-full flex flex-col items-center z-10">
