@@ -10,6 +10,8 @@ export default function HoldableOiiaCat() {
   const [isTouching, setIsTouching] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const soundRef = useRef<HTMLAudioElement | null>(null);
+  const pressStartedAt = useRef<number | null>(null);
+  const MIN_HOLD_TIME = 200; // 최소 200ms 이상 눌러야 종료 허용
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (e.button !== 0) {
@@ -24,6 +26,7 @@ export default function HoldableOiiaCat() {
   const startPress = () => {
     setIsTouching(true);
 
+    pressStartedAt.current = Date.now();
     if (soundRef.current) {
       soundRef.current.currentTime = 0;
       soundRef.current
@@ -41,6 +44,11 @@ export default function HoldableOiiaCat() {
   };
 
   const endPress = () => {
+    const now = Date.now();
+    const pressDuration = pressStartedAt.current
+      ? now - pressStartedAt.current
+      : 0;
+    if (pressDuration < MIN_HOLD_TIME) return;
     setIsTouching(false);
 
     if (intervalRef.current) {
