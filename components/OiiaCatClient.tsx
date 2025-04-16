@@ -42,6 +42,7 @@ export default function OiiaCatClient() {
       onMouseUp={endPress}
       onTouchStart={startPress}
       onTouchEnd={endPress}
+      onContextMenu={(e) => e.preventDefault()}
     >
       {/* 누른 시간 표시 */}
       {isTouching && (
