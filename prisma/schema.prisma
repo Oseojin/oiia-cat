@@ -10,6 +10,6 @@ datasource db {
 model PressRecord {
   id        Int      @id @default(autoincrement())
   ip        String   @unique
-  total     Int
+  longestPress     Int  @default(0)
   updatedAt DateTime @updatedAt
 }

@@ -1,3 +1,4 @@
+import ClientIP from "@/components/ClientIP";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -14,8 +15,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-black text-white w-screen h-screen overflow-hidden">
         {/* 최상단 타이틀 */}
-        <div className="absolute top-4 w-full text-center text-3xl font-bold z-10">
-          OIIACAT
+        <div className="absolute top-4 w-full flex flex-col items-center z-10">
+          <div className="text-3xl font-bold">OIIACAT</div>
+          <ClientIP />
         </div>
         {children}
       </body>

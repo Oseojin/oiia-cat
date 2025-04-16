@@ -1,7 +1,6 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-// ✅ IP 추출 함수
 function getClientIp(req: NextRequest) {
   return (
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
@@ -10,7 +9,6 @@ function getClientIp(req: NextRequest) {
   );
 }
 
-// ✅ 누른 시간 저장
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const ip = getClientIp(req);
@@ -20,19 +18,22 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid data" }, { status: 400 });
   }
 
-  await prisma.pressRecord.upsert({
-    where: { ip },
-    update: { total: { increment: time } },
-    create: { ip, total: time },
-  });
+  const existing = await prisma.pressRecord.findUnique({ where: { ip } });
+
+  if (!existing || time > existing.longestPress) {
+    await prisma.pressRecord.upsert({
+      where: { ip },
+      update: { longestPress: time },
+      create: { ip, longestPress: time },
+    });
+  }
 
   return NextResponse.json({ message: "Recorded" });
 }
 
-// ✅ TOP 30 조회
 export async function GET() {
   const top = await prisma.pressRecord.findMany({
-    orderBy: { total: "desc" },
+    orderBy: { longestPress: "desc" },
     take: 30,
   });
 

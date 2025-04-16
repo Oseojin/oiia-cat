@@ -67,7 +67,7 @@ export default function OiiaCatClient() {
     >
       {/* 누른 시간 표시 */}
       {isTouching && (
-        <div className="absolute top-16 text-center text-xl z-10">
+        <div className="absolute top-30 text-center text-xl z-10">
           {(pressTime / 10).toFixed(1)}
         </div>
       )}
