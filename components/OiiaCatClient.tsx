@@ -42,7 +42,6 @@ export default function OiiaCatClient() {
       onMouseUp={endPress}
       onTouchStart={startPress}
       onTouchEnd={endPress}
-      onContextMenu={(e) => e.preventDefault()}
     >
       {/* 누른 시간 표시 */}
       {isTouching && (
@@ -62,6 +61,7 @@ export default function OiiaCatClient() {
             height={500}
             unoptimized
             draggable={false}
+            className="pointer-events-none select-none"
           />
         ) : (
           <Image
@@ -71,6 +71,7 @@ export default function OiiaCatClient() {
             height={500}
             priority
             draggable={false}
+            className="pointer-events-none select-none"
           />
         )}
       </div>
